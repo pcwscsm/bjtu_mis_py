@@ -93,8 +93,8 @@ except BjtuError as e:
 ## 开发
 
 ```bash
-git clone https://github.com/your_user/bjtu-mis-py
-cd bjtu-mis-py
+git clone https://github.com/pcwscsm/bjtu_mis_py
+cd bjtu_mis_py
 pip install -e ".[dev,captcha]"
 pytest
 ```
