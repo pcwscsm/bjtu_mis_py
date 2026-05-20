@@ -1,7 +1,19 @@
 """SDK 用到的枚举。"""
 from __future__ import annotations
 
-from enum import IntEnum, StrEnum
+import sys
+from enum import IntEnum
+
+if sys.version_info >= (3, 11):
+    from enum import StrEnum
+else:
+    from enum import Enum
+
+    class StrEnum(str, Enum):
+        """Polyfill of stdlib ``enum.StrEnum`` for Python 3.10."""
+
+        def __str__(self) -> str:
+            return self.value
 
 
 class HomeworkType(IntEnum):
