@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bjtu-mis-py"
+version = "0.1.0"
+description = "BJTU 教务系统 / MIS 门户 / 智慧课程平台的 Python SDK"
+readme = "README.md"
+authors = [
+    {name = "Jack", email = "your_email@example.com"},
+]
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["bjtu", "education", "sdk"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+]
+
+[project.optional-dependencies]
+# 默认验证码识别器依赖。用户可以不装这个,自己接入别的 OCR。
+captcha = ["ddddocr>=1.4.11"]
+# 开发依赖
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "responses>=0.24.0",
+    "mypy>=1.7.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your_user/bjtu-mis-py"
+Repository = "https://github.com/your_user/bjtu-mis-py"
+Issues = "https://github.com/your_user/bjtu-mis-py/issues"
+
+[tool.setuptools.packages.find]
+include = ["bjtu_mis*"]
+
+[tool.setuptools.package-data]
+bjtu_mis = ["py.typed"]
+
+# ── mypy 严格配置 ──
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+# ── ruff(代码风格 + lint) ──
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",  # pycodestyle + pyflakes
+    "I",            # isort
+    "UP",           # pyupgrade
+    "B",            # flake8-bugbear
+    "SIM",          # flake8-simplify
+]
+
+# ── pytest ──
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v --cov=bjtu_mis --cov-report=term-missing"
