@@ -47,7 +47,7 @@ class TestHomework:
 
     def test_class_submit_rate_normal(self):
         hw = _make_hw()
-        hw_dict = hw.__dict__.copy()
+        hw.__dict__.copy()
         # 不能直接改 frozen,要新建
         hw = Homework(**{**hw.__dict__, "class_submitted": 25, "class_total": 50})
         assert hw.class_submit_rate == 0.5

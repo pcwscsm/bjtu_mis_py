@@ -12,8 +12,6 @@ import responses
 
 from bjtu_mis import (
     BjtuClient,
-    CredentialsError,
-    CaptchaError,
     NotLoggedInError,
 )
 

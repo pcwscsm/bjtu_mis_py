@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from bjtu_mis import ExamType, HomeworkType
+from bjtu_mis import ExamType
 from bjtu_mis._internal.platforms.aa import _parse_exams, _parse_grades
 from bjtu_mis._internal.platforms.course_platform import _fetch_homework_one  # noqa
 

@@ -33,7 +33,7 @@ class ExamType(StrEnum):
     OTHER = "其他"
 
     @classmethod
-    def from_str(cls, raw: str) -> "ExamType":
+    def from_str(cls, raw: str) -> ExamType:
         """容错的字符串到枚举转换。未知字符串归为 OTHER。"""
         for member in cls:
             if member.value in raw:

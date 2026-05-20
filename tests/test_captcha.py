@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from bjtu_mis import CaptchaError, CaptchaSolver, DdddocrSolver
+from bjtu_mis import CaptchaSolver, DdddocrSolver
 
 
 class TestNormalize:

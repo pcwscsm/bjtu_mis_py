@@ -5,13 +5,11 @@ import hashlib
 import logging
 import re
 from datetime import datetime
-from typing import Any
 
 from bs4 import BeautifulSoup
 from requests import Session
 
 from ...enums import ExamType
-from ...exceptions import ParseError
 from ...models import Exam, Grade
 from .. import http
 from ..auth import AuthState, ensure_aa_login

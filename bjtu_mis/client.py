@@ -5,17 +5,18 @@
 """
 from __future__ import annotations
 
+import contextlib
 from typing import TYPE_CHECKING
 
-from .captcha import CaptchaSolver, DdddocrSolver
-from .enums import HomeworkType
-from .exceptions import NotLoggedInError
-from .models import Course, Exam, Grade, Homework, StudentInfo
 from ._internal import auth as _auth
 from ._internal import http as _http
 from ._internal.auth import AuthState
 from ._internal.platforms import aa as _aa
 from ._internal.platforms import course_platform as _cp
+from .captcha import CaptchaSolver, DdddocrSolver
+from .enums import HomeworkType
+from .exceptions import NotLoggedInError
+from .models import Course, Exam, Grade, Homework, StudentInfo
 
 if TYPE_CHECKING:
     from types import TracebackType
@@ -93,19 +94,17 @@ class BjtuClient:
 
     # ── 上下文管理器 ─────────────────────────────────────────
 
-    def __enter__(self) -> "BjtuClient":
+    def __enter__(self) -> BjtuClient:
         return self
 
     def __exit__(
         self,
-        exc_type: "type[BaseException] | None",
-        exc_val: "BaseException | None",
-        exc_tb: "TracebackType | None",
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self.logout()
-        except Exception:
-            pass
 
     # ── 登录登出 ─────────────────────────────────────────────
 
@@ -130,10 +129,8 @@ class BjtuClient:
 
     def logout(self) -> None:
         """登出并清理本地 cookie / session。"""
-        try:
+        with contextlib.suppress(Exception):
             self._session.close()
-        except Exception:
-            pass
         self._state.student_info = None
         self._state.aa_logged_in = False
 
