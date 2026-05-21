@@ -59,7 +59,7 @@ class BjtuClient:
         *,
         captcha_solver: CaptchaSolver | None = None,
         timeout: float = 30.0,
-        max_login_retries: int = 5,
+        max_login_retries: int = 3,
         user_agent: str | None = None,
     ) -> None:
         self._stu_id = stu_id

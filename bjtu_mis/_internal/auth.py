@@ -53,11 +53,18 @@ def login(
     stu_id: str,
     password: str,
     captcha_solver: CaptchaSolver,
-    max_retries: int = 5,
+    max_retries: int = 3,
 ) -> StudentInfo:
     """完成 mis 登录,返回学生信息。
 
     会自动重试验证码错误。账号密码错立即抛出,不重试(避免风控)。
+
+    重试逻辑:
+    - ``CredentialsError`` 立即抛出,不重试。
+    - ``CaptchaError`` / ``ParseError`` / ``NetworkError`` 可重试。
+    - 裸 ``LoginError`` 也重试 —— BJTU CAS 经常在验证码错时返回不含 ``.errorlist``
+      / ``.error`` 的页面,SDK 没法精确识别,但实战中这类失败重试一次新验证码大概率能成。
+      ``CredentialsError`` 是 ``LoginError`` 的子类,所以必须在前面单独 ``except`` 拦掉。
     """
     last_err: Exception | None = None
     for attempt in range(1, max_retries + 1):
@@ -66,7 +73,7 @@ def login(
         except CredentialsError:
             # 账号密码错不重试
             raise
-        except (CaptchaError, ParseError, NetworkError) as e:
+        except (CaptchaError, ParseError, NetworkError, LoginError) as e:
             last_err = e
             log.warning("第 %d 次登录失败: %s", attempt, e)
             if attempt < max_retries:
